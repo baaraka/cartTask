@@ -1,27 +1,35 @@
+import { useEffect, useState } from "react";
 import "./Description.scss";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 function Description() {
+  const [data, setData] = useState("");
+
+  const location = useLocation();
+
+  const id = location.pathname.split("/")[2];
+
+  useEffect(() => {
+    const getData = async () => {
+      const res = await axios.get(`https://fakestoreapi.com/products/${id}`);
+      setData(res.data);
+    };
+    getData();
+  }, [id]);
   return (
     <div className="description">
       <div className="descContainer">
         <div className="left">
           <div className="leftContainer">
-            <img
-              src="https://images.pexels.com/photos/428338/pexels-photo-428338.jpeg?auto=compress&cs=tinysrgb&w=800"
-              alt=""
-            />
+            <img src={data.image} alt="" />
           </div>
-          <span>Price: 500$ </span>
+          <span>Price: ${data.price} </span>
         </div>
         <div className="right">
           <span>description</span>
-          <h1>Caminous</h1>
-          <p>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officiis
-            doloremque provident perferendis itaque ipsam at laboriosam debitis
-            porro a. Tempora vel eum voluptatibus cum animi laborum adipisci
-            itaque, sunt incidunt?
-          </p>
+          <h1>{data.title}</h1>
+          <p>{data.description}</p>
           <button>ADD TO CART</button>
         </div>
       </div>
