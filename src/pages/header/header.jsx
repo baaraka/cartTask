@@ -17,17 +17,17 @@ function Header() {
     <div className="header">
       <div className="headerContainer">
         <h1>Products</h1>
-        <Link to={`/product/${data._id}`} className="link">
-          <div className="productListContainer">
-            {data.map((item) => (
-              <div className="productListItem" key={item._id}>
+        <div className="productListContainer">
+          {data.map((item) => (
+            <Link to={`/products/${item.id}`} className="link">
+              <div className="productListItem" key={item.id}>
                 <img src={item.image} alt="" />
                 <h2>{item.title}</h2>
                 <span>price: ${item.price}</span>
               </div>
-            ))}
-          </div>
-        </Link>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );
