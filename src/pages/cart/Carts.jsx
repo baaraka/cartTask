@@ -1,6 +1,44 @@
+import { useContext } from "react";
 import "./Carts.scss";
+import { CartContext } from "../../context/CartContext";
 
 function Carts() {
+  const { cartItems, removeToCart, incrementQuantity, decrementQuantity } =
+    useContext(CartContext);
+
+  const removeToCarts = (itemId) => {
+    removeToCart(itemId);
+  };
+
+  const handleIncrementQuantity = (itemId) => {
+    incrementQuantity(itemId);
+  };
+
+  const handleDecrementQuantity = (itemId) => {
+    decrementQuantity(itemId);
+  };
+
+  const totalCost = () => {
+    let total = 0;
+    cartItems.forEach((item) => {
+      total += item.price * item.quantity;
+    });
+    return total.toFixed(2);
+  };
+
+  const totalCount = () => {
+    let total = 0;
+    cartItems.forEach((item) => {
+      total += item.quantity;
+    });
+    return total;
+  };
+
+  const getItemTotalPrice = (item) => {
+    const total = item.price * item.quantity;
+    return total.toFixed(2);
+  };
+
   return (
     <div className="carts">
       <div className="cartContainer">
@@ -12,66 +50,35 @@ function Carts() {
           <hr />
           <div className="lItem">
             <h2>shopping cart</h2>
-            <p>You have 3 items in your cart</p>
+            <p>You have {totalCount()} items in your cart</p>
           </div>
           <div className="cartListContainer">
-            <div className="cartListContainerItem">
-              <img
-                src="https://images.pexels.com/photos/1462637/pexels-photo-1462637.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt=""
-              />
-              <div className="titleDesc">
-                <h1>smart watch</h1>
-                <p>Lorem ipsum dolor sit</p>
-              </div>
-              <div className="count">
-                <span>5</span>
-                <div className="countItem">
-                  <i className="iconBack fa-solid fa-arrow-left"></i>
-                  <i className="iconBack fa-solid fa-arrow-right"></i>
+            {cartItems.map((item) => (
+              <div className="cartListContainerItem" key={item.id}>
+                <img src={item.image} alt="" />
+                <div className="titleDesc">
+                  <h1>{item.title}</h1>
                 </div>
-              </div>
-              <span>$500</span>
-              <i className="iconDelete fa-solid fa-trash-can"></i>
-            </div>
-            <div className="cartListContainerItem">
-              <img
-                src="https://images.pexels.com/photos/1462637/pexels-photo-1462637.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt=""
-              />
-              <div className="titleDesc">
-                <h1>smart watch</h1>
-                <p>Lorem ipsum dolor sit</p>
-              </div>
-              <div className="count">
-                <span>5</span>
-                <div className="countItem">
-                  <i className="iconBack fa-solid fa-arrow-left"></i>
-                  <i className="iconBack fa-solid fa-arrow-right"></i>
+                <div className="count">
+                  <span>{item.quantity}</span>
+                  <div className="countItem">
+                    <i
+                      onClick={() => handleDecrementQuantity(item.id)}
+                      className="iconBack fa-solid fa-arrow-left"
+                    ></i>
+                    <i
+                      onClick={() => handleIncrementQuantity(item.id)}
+                      className="iconBack fa-solid fa-arrow-right"
+                    ></i>
+                  </div>
                 </div>
+                <span>${getItemTotalPrice(item)}</span>
+                <i
+                  onClick={() => removeToCarts(item.id)}
+                  className="iconDelete fa-solid fa-trash-can"
+                ></i>
               </div>
-              <span>$500</span>
-              <i className="iconDelete fa-solid fa-trash-can"></i>
-            </div>
-            <div className="cartListContainerItem">
-              <img
-                src="https://images.pexels.com/photos/1462637/pexels-photo-1462637.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt=""
-              />
-              <div className="titleDesc">
-                <h1>smart watch</h1>
-                <p>Lorem ipsum dolor sit</p>
-              </div>
-              <div className="count">
-                <span>5</span>
-                <div className="countItem">
-                  <i className="iconBack fa-solid fa-arrow-left"></i>
-                  <i className="iconBack fa-solid fa-arrow-right"></i>
-                </div>
-              </div>
-              <span>$500</span>
-              <i className="iconDelete fa-solid fa-trash-can"></i>
-            </div>
+            ))}
           </div>
         </div>
         <div className="right">
@@ -119,19 +126,19 @@ function Carts() {
           <div className="totalCost">
             <div className="cost">
               <p>subtotal</p>
-              <p>$1650</p>
+              <p>${totalCost()}</p>
             </div>
             <div className="cost">
               <p>shipping</p>
-              <p>$4</p>
+              <p>$0</p>
             </div>
             <div className="cost">
               <p>Total(Tax incl.)</p>
-              <p>$1646</p>
+              <p>${totalCost()}</p>
             </div>
           </div>
           <div className="checkOut">
-            <span>$1646</span>
+            <span>${totalCost()}</span>
             <div className="checkOutDetails">
               <span>checkOut</span>
               <i className="iconBack fa-solid fa-arrow-right"></i>
