@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./Description.scss";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { CartContext } from "../../context/CartContext";
 
 function Description() {
   const [data, setData] = useState("");
+  const { addToCart } = useContext(CartContext);
 
   const location = useLocation();
+  const navigate = useNavigate();
 
   const id = location.pathname.split("/")[2];
 
@@ -17,6 +20,18 @@ function Description() {
     };
     getData();
   }, [id]);
+
+  const addToCarts = () => {
+    const item = {
+      id: data.id,
+      title: data.title,
+      price: data.price,
+      image: data.image,
+    };
+    addToCart(item);
+    navigate("/cart");
+  };
+
   return (
     <div className="description">
       <div className="descContainer">
@@ -30,7 +45,7 @@ function Description() {
           <span>description</span>
           <h1>{data.title}</h1>
           <p>{data.description}</p>
-          <button>ADD TO CART</button>
+          <button onClick={addToCarts}>ADD TO CART</button>
         </div>
       </div>
     </div>
