@@ -65,3 +65,24 @@
     }
   }
 }
+
+//media queries
+@media (max-width: 768px) {
+  .header {
+    .headerContainer {
+      padding: 10px;
+
+      .productListContainer {
+        flex-direction: column;
+
+        .productListItem {
+          width: 100%;
+
+          img {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}

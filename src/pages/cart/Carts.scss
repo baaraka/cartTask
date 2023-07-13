@@ -11,7 +11,7 @@
     gap: 20px;
 
     .left {
-      flex: 9;
+      width: 70%;
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -200,6 +200,34 @@
           align-items: center;
           gap: 10px;
         }
+      }
+    }
+  }
+}
+
+//media queries
+@media (max-width: 768px) {
+  .carts {
+    .cartContainer {
+      flex-direction: column;
+
+      .left {
+        width: 100%;
+
+        .cartListContainer {
+          .cartListContainerItem {
+            flex-direction: column;
+            text-align: center;
+            gap: 30px;
+
+            img {
+              width: 100%;
+            }
+          }
+        }
+      }
+      .right {
+        width: 100%;
       }
     }
   }
